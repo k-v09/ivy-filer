@@ -10,7 +10,7 @@ public class IvyFileReader {
         try (DataInputStream dis = new DataInputStream(new FileInputStream(filename))) {
             int magicNumber = dis.readInt();
             if (magicNumber != 0x49495659) {
-                throw new IOException("This is not a valid .ivy file.");
+                throw new IOException("Invalid .ivy file.");
             }
             int numOvertones = dis.readShort();
             List<Harmonic> overtones = new ArrayList<>();
