@@ -57,6 +57,74 @@ public class Main {
 }
 ```
 
+## Example Files
+
+### base.ivy
+
+This file contains a simple harmonic structure with three harmonics (440 Hz, 880 Hz, 1320 Hz) and no references.
+
+### mod.ivy
+
+This file contains two harmonics (2000 Hz, 3000 Hz) and references `base.ivy` as its base.
+
+You can test reading these example `.ivy` files using the `IvyFileReader`:
+
+```java
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            IvyFileData baseData = IvyFileReader.readIvyFile("base.ivy");
+            System.out.println("Base Overtones: " + baseData.getOvertones());
+            System.out.println("Base References: " + baseData.getReferences());
+
+            IvyFileData modData = IvyFileReader.readIvyFile("mod.ivy");
+            System.out.println("Mod Overtones: " + modData.getOvertones());
+            System.out.println("Mod References: " + modData.getReferences());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### complex.ivy
+
+This file represents a complex harmonic structure with five harmonics and references to three other `.ivy` files: `base.ivy`, `mod.ivy`, and `additional.ivy`.
+
+**Harmonics**:
+- 440 Hz with amplitude 1.0
+- 1000 Hz with amplitude 0.75
+- 2000 Hz with amplitude 0.625
+- 3000 Hz with amplitude 0.25
+- 4000 Hz with amplitude 0.5
+
+**References**:
+- `base.ivy`: A file with three harmonics (440 Hz, 880 Hz, 1320 Hz).
+- `mod.ivy`: A file with two harmonics (2000 Hz, 3000 Hz) and a reference to `base.ivy`.
+- `additional.ivy`: A file with four harmonics (550 Hz, 1100 Hz, 1650 Hz, 2200 Hz).
+
+### Example Usage
+
+You can load the `complex.ivy` file and its references using the following Java code:
+
+```java
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            IvyFileData complexData = IvyFileReader.readIvyFile("complex.ivy");
+            System.out.println("Complex Overtones: " + complexData.getOvertones());
+            System.out.println("Complex References: " + complexData.getReferences());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
 ## Ivy File Format
 
 The `.ivy` file format has the following binary structure:
@@ -99,5 +167,3 @@ This will create a `sound.ivy` file and read its contents
 - **Versioning**: Introduce versioning to the file format to support backward and forward compatibility as the format evolves.
 - **User Interface**: Develop a graphical user interface (GUI) for easier creation and editing of `.ivy` files.
 - **Validation Tools**: Create tools for validating `.ivy` files to ensure they adhere to the expected format and contain valid data.
-- **Reference Files**: A major bonus of the .ivy file is the ability to reference other files to have a base upon which to build your sound. I'd like to add some common acoustic instruments as well as some interesting synth sounds
-
